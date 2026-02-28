@@ -34,6 +34,9 @@ namespace SistemaCadastro
 
         private void cmdExcluir_Click(object sender, EventArgs e)
         {
+            int indice = lista.SelectedIndex;
+            pessoas.RemoveAt(indice);
+            Listar();
 
         }
 
@@ -55,9 +58,9 @@ namespace SistemaCadastro
                 return;
             }
 
-            if (txtTelefone.Text == "")
+            if (txtTelefone.Text == "(  )     -")
             {
-                MessageBox.Show("Informe o telefone!");
+                MessageBox.Show("Informe o telefone!", "Inconsistência");
                 txtTelefone.Focus();
                 return;
             }
@@ -93,11 +96,35 @@ namespace SistemaCadastro
             p.Genero = Genero;
             p.CasaPropria = chkCasa.Checked;
             p.Veiculo = chkPossuiVeiculo.Checked;
+
+            if (index < 0)
+            {
+                pessoas.Add(p);
+            }
+            else
+            {
+                pessoas[index] = p;
+            }
+
+            cmdLimpar_Click(cmdLimpar, EventArgs.Empty);
+
+            Listar();
         }
 
         private void cmdLimpar_Click(object sender, EventArgs e)
         {
-
+            txtNome.Text = "";
+            txtData.Text = "";
+            cboEstadoCivil.SelectedIndex = 0;
+            txtTelefone.Text = "";
+            chkCasa.Checked = false;
+            chkPossuiVeiculo.Checked = false;
+            optHomem.Checked = false;
+            optMulher.Checked = false;
+            optNaoBinario.Checked = false;
+            optNoInformation.Checked = false;
+            optOutro.Checked = false;
+            txtNome.Focus();
         }
 
         private void Listar()
@@ -107,6 +134,42 @@ namespace SistemaCadastro
             foreach (Pessoa p in pessoas)
             {
                 lista.Items.Add(p.Nome);
+            }
+        }
+
+
+        private void lista_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int indice = lista.SelectedIndex;  
+              Pessoa p = pessoas[indice];
+
+            txtNome.Text = p.Nome;
+            txtData.Text = p.DataNascimento;
+            txtTelefone.Text = p.Telefone;
+            cboEstadoCivil.SelectedItem = p.EstadoCivil;
+            chkCasa.Checked = p.CasaPropria;
+            chkPossuiVeiculo.Checked = p.Veiculo;
+            
+            switch (p.Genero)
+            {
+                case 'H':
+                    optHomem.Checked = true;
+                    break;
+                
+                case 'M':
+                    optMulher.Checked = true;   
+                    break;
+                case 'N':
+                    optNaoBinario.Checked = true;
+                    break;
+                case 'O':
+                    optOutro.Checked = true;
+                    break;
+                case 'S':
+                    optNoInformation.Checked = true;
+                    break;
+                default:
+                    break;
             }
         }
     }

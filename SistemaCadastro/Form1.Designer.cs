@@ -113,6 +113,7 @@
             this.lista.Name = "lista";
             this.lista.Size = new System.Drawing.Size(554, 43);
             this.lista.TabIndex = 23;
+            this.lista.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lista_MouseDoubleClick);
             // 
             // fraGenero
             // 
